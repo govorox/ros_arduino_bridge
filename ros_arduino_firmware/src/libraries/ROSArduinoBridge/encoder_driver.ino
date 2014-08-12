@@ -28,7 +28,33 @@
     else return encoders.XAxisReset();
   }
 #else
-  #error A encoder driver must be selected!
+  // No Encoder defined
+  //#error A encoder driver must be selected!
+  
+  long encoders[2];
+  
+  long readEncoder(int i) {
+    if (i == LEFT)
+      return encoders[0];
+    if (i == RIGHT)
+      return encoders[1];
+    return 0;
+  }
+
+  /* Wrap the encoder reset function */
+  void resetEncoder(int i) {
+    if (i == LEFT)
+      encoders[0] = 0;
+    if (i == RIGHT)
+      encoders[1] = 0;
+  }
+  
+  void adjustEncoder(int i, long ticks) {
+    if (i == LEFT)
+      encoders[0] += ticks;
+    if (i == RIGHT)
+      encoders[1] += ticks;
+  }
 #endif
 
 /* Wrap the encoder reset function */
